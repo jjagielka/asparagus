@@ -475,6 +475,9 @@
     <h1>Asparagus Pee & Coriander</h1>
     <p class="subtitle">A highly unscientific office investigation into two of nature's most divisive smells and flavors. Takes about 90 seconds. Your answers are shared anonymously with the group at the end.</p>
     <button class="btn btn-primary" style="width:100%" onclick="startSurvey()" ${configured ? '' : 'disabled'}>Let's do this →</button>
+    <p style="text-align:center;margin-top:14px">
+      <a href="#" onclick="event.preventDefault(); showResultsOnly()" style="color:#7a8960;font-size:14px;text-decoration:underline">Skip the survey and see the results →</a>
+    </p>
     <p class="response-count" id="introCount">${configured ? 'Loading response count...' : ''}</p>
   `;
       if (configured) loadResponseCount();
@@ -678,6 +681,12 @@
     function resetSurvey() {
       state = { screen: 'intro', currentQuestion: 0, answers: {}, stats: null };
       render();
+    }
+
+    async function showResultsOnly() {
+      state.screen = 'submitting';
+      app.innerHTML = `<div class="loading">Loading group results...</div>`;
+      await loadResults();
     }
 
     render();
