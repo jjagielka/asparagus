@@ -450,6 +450,10 @@
     let state = { screen: 'intro', currentQuestion: 0, answers: {}, stats: null };
     const app = document.getElementById('app');
 
+    const db = configured
+      ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON)
+      : null;
+
     function render() {
       if (state.screen === 'intro') renderIntro();
       else if (state.screen === 'question') renderQuestion();
@@ -482,7 +486,7 @@
 
     async function loadResponseCount() {
       try {
-        const { count, error } = await supabase
+        const { count, error } = await db
           .from('responses')
           .select('*', { count: 'exact', head: true });
         if (error) throw error;
@@ -579,7 +583,7 @@
           control_food: state.answers.control_food,
           name: (state.answers.name || '').trim() || null
         };
-        const { error } = await supabase.from('responses').insert(payload);
+        const { error } = await db.from('responses').insert(payload);
         if (error) throw error;
         await loadResults();
       } catch (e) {
@@ -598,7 +602,7 @@
 
     async function loadResults() {
       try {
-        const { data, error } = await supabase
+        const { data, error } = await db
           .from('responses')
           .select('asparagus_producer, asparagus_detector, coriander_rating, coriander_soapy');
         if (error) throw error;
