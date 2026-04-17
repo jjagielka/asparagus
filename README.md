@@ -1,6 +1,6 @@
 # asparagus
 
-## Survay
+## Survey
 
 https://jjagielka.github.io/asparagus/
 
