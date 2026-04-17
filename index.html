@@ -369,7 +369,7 @@
       !SUPABASE_URL.includes('YOUR-PROJECT') &&
       !SUPABASE_ANON.includes('YOUR-ANON-KEY');
 
-    const supabase = configured
+    const db = configured
       ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON)
       : null;
 
@@ -449,10 +449,6 @@
 
     let state = { screen: 'intro', currentQuestion: 0, answers: {}, stats: null };
     const app = document.getElementById('app');
-
-    const db = configured
-      ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON)
-      : null;
 
     function render() {
       if (state.screen === 'intro') renderIntro();
